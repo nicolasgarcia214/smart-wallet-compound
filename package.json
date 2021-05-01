@@ -1,0 +1,28 @@
+{
+  "name": "smart-wallet-compound",
+  "version": "1.0.0",
+  "description": "Smart Ethereum Wallet that integrates with Compound and is build using Hardhat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasgarcia214/smart-wallet-compound.git"
+  },
+  "keywords": [
+    "Solidity",
+    "Ethereum",
+    "Hardhat",
+    "Compound"
+  ],
+  "author": "Nicolas Garcia - nicolasgarcia214@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicolasgarcia214/smart-wallet-compound/issues"
+  },
+  "homepage": "https://github.com/nicolasgarcia214/smart-wallet-compound#readme",
+  "devDependencies": {
+    "hardhat": "^2.2.1"
+  }
+}

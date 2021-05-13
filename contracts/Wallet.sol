@@ -14,7 +14,7 @@ contract Wallet is Compound {
         admin = msg.sender;
     }
 
-    function deposit(
+    function depositERCToken(
         address cTokenAddress,
         uint underlyingAmount
     )
@@ -24,4 +24,39 @@ contract Wallet is Compound {
         supply(cTokenAddress, underlyingAmount);
     }
 
+    function withdraw(address cTokenAddress, uint underlyingAmount, address recipient) onlyAdmin() external{
+        require(getUnderlyingBalance(cTokenAddress) >= underlyingAmount, 'Balance to low');
+        claimComp();
+        redeem(cTokenAddress, underlyingAmount);
+
+        address underlyingAddress = getUnderlyingAddress(cTokenAddress);
+        IERC20(underlyingAddress).transfer(recipient, underlyingAmount);
+
+        address compAddress = getCompAddress();
+        IERC20 compToken = IERC20(compAddress);
+        uint compAmount = compToken.balanceOf(address(this));
+        compToken.transfer(recipient, compAmount);
+
+    }
+
+    function withdrawEth(uint underlyingAmount, address payable recipient) onlyAdmin() external{
+        require(getUnderlyingEthBalance() >= underlyingAmount, 'Balance to low');
+        claimComp();
+        redeemEth(underlyingAmount);
+        recipient.transfer(underlyingAmount);
+
+        address compAddress = getCompAddress();
+        IERC20 compToken = IERC20(compAddress);
+        uint compAmount = compToken.balanceOf(address(this));
+        compToken.transfer(recipient, compAmount);
+    }
+
+    receive() external payable{
+        supplyEth(msg.value);
+    }
+
+    modifier onlyAdmin(){
+        require(msg.sender == admin, 'You are not allowed');
+        _;
+    }
 }
